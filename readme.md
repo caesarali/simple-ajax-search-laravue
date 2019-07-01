@@ -22,8 +22,6 @@ Implementasi sederhana konsep pencarian data via ajax menggunakan VueJs dan Lara
 
 - Run `php artisan db:seed`
 
-- Run `php artisan storage:link`
-
 - Run `php artisan serve`
 
 - Done.
