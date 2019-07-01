@@ -11,14 +11,37 @@
     <body>
         <div id="app">
             <v-app :dark="darkmode">
-                <v-content>
+                <v-toolbar color="transparent" flat fixed app>
+                    <v-spacer></v-spacer>
+                    <v-menu transition="scale-transition" origin="top right" :close-on-content-click="false" :nudge-width="160">
+                        <template v-slot:activator="{ on }">
+                            <v-btn icon v-on="on"><v-icon>more_vert</v-icon></v-btn>
+                        </template>
+                        <v-list dense>
+                            <v-subheader>Option</v-subheader>
+                            <v-list-tile href="https://github.com/caesarali/simple-ajax-search-laravue" target="_blank">
+                                <v-list-tile-action>
+                                    <v-icon>fab fa-github</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-title>GitHub</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile>
+                                <v-list-tile-action>
+                                    <v-switch v-model="darkmode" color="teal"></v-switch>
+                                </v-list-tile-action>
+                                <v-list-tile-title>Dark Mode</v-list-tile-title>
+                            </v-list-tile>
+                        </v-list>
+                    </v-menu>
+                </v-toolbar>
+                <v-content class="pt-0">
                     <v-container fill-height text-xs-center>
                         <v-layout row wrap align-center justify-center>
                             <v-flex>
                                 <h1 class="display-3 font-weight-thin mb-3">SINDRY</h1>
-                                <v-text-field v-model="keyword" label="Search for loundry transaction histories" append-icon="search" color="teal" solo clearable></v-text-field>
+                                <v-text-field v-model="keyword" label="Search in loundry transaction histories..." append-icon="search" color="teal" solo clearable :loading="loading"></v-text-field>
                                 <v-slide-y-transition>
-                                    <v-data-table hide-headers hide-actions :items="transactions" class="elevation-1" v-if="transactions" :loading="true">
+                                    <v-data-table hide-headers hide-actions :items="transactions" class="elevation-1" v-if="transactions">
                                         <template v-slot:items="props">
                                             <td nowrap class="text-xs-left py-2">
                                                 @{{ props.item.code }} <br>
@@ -94,7 +117,7 @@
                             <template v-slot:items="props">
                                 <td nowrap class="text-xs-left">
                                     @{{ props.item.type.name }}
-                                    <span style="float: right"> Rp. @{{ props.item.type.price }} / kg</span>
+                                    <span style="float: right"> Rp. @{{ props.item.type.price | number }} / kg</span>
                                 </td>
                                 <td nowrap class="text-xs-center">@{{ props.item.qty }} kg</td>
                                 <td nowrap class="text-xs-right">Rp. @{{ props.item.subtotal | number }},-</td>
@@ -120,6 +143,7 @@
                 el: '#app',
                 data: () => ({
                     keyword: '',
+                    loading: false,
                     darkmode: true,
                     transactions: null,
                     detail: {
@@ -140,19 +164,22 @@
                 methods: {
                     searchIt: _.debounce(function(value) {
                         if (value) {
+                            this.loading = true
                             this.search(value)
                         } else {
                             this.transactions = null
                         }
                     }, 300),
 
-                    search(keyword) {
-                        axios.get('/api/transactions', {
+                    async search(keyword) {
+                        await axios.get('/api/transactions', {
                             params: { q: keyword }
                         })
                         .then(({ data }) => {
                             this.transactions = data
                         })
+
+                        this.loading = false
                     },
 
                     show(data) {
