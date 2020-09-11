@@ -15,15 +15,15 @@ class UsersSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Caesar Ali L.',
-                'email' => 'caesaralilamondo@gmail.com',
-                'password' => bcrypt('caesarali'),
+                'email' => 'caesarali@sindry',
+                'password' => '$2y$10$28KlUODL.6PHtrdDZXySkeMkW3kiuGIlgjeEq9U2ZYPonSOcPB4Xe',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'Desi Iriani Tamrin.',
-                'email' => 'desta@gmail.com',
-                'password' => bcrypt('desta'),
+                'name' => 'Administrator',
+                'email' => 'admin@sindry',
+                'password' => '$2y$10$28KlUODL.6PHtrdDZXySkeMkW3kiuGIlgjeEq9U2ZYPonSOcPB4Xe',
                 'created_at' => now(),
                 'updated_at' => now()
             ]
