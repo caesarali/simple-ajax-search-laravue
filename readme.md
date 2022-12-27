@@ -26,6 +26,5 @@ Implementasi sederhana konsep pencarian data via ajax menggunakan VueJs dan Lara
 
 - Done.
 
-#
-### Contact via:
-- [Facebook](https://facebook.com/caesaralilamondo)
+
+### Find me on twitter [@caesarali_L](https://twitter.com/caesarali_L)
